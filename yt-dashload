@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Copyright 2014 PotcFdk
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+URL="$1"
+
+echo "= yt-dashload ="
+
+echo "URL: $URL"
+
+VIDEO_ID=$(./youtube-dl --get-id "$URL")
+echo "VideoID: $VIDEO_ID"
+
+VIDEO_TITLE=$(./youtube-dl -e "$URL")
+echo "Title: $VIDEO_TITLE"
+
+# Video
+
+# Formats:
+# 160         mp4       144p        DASH video , video only
+# 133         mp4       240p        DASH video , video only
+# 134         mp4       360p        DASH video , video only
+# 135         mp4       480p        DASH video , video only
+# 136         mp4       720p        DASH video , video only
+# 137         mp4       1080p       DASH video , video only
+# 264         mp4       1440p       DASH video , video only
+# 138         mp4       2160p       DASH video , video only
+
+echo "Downloading video..."
+
+TMP_VIDEO="tmp.video.$VIDEO_ID"
+./youtube-dl -f 137/136/135/134/133/160 -o "$TMP_VIDEO" "$URL"
+
+# Audio
+
+# Formats:
+# 171         webm      audio only  DASH audio , audio@ 48k
+# 140         m4a       audio only  DASH audio , audio@128k
+
+echo "Downloading audio..."
+
+TMP_AUDIO="tmp.audio.$VIDEO_ID"
+./youtube-dl -f 140/171 -o "$TMP_AUDIO" "$URL"
+
+# Merge video and audio
+
+ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy "$VIDEO_TITLE.mp4"
+
+# Cleanup
+
+rm "$TMP_VIDEO"
+rm "$TMP_AUDIO"
