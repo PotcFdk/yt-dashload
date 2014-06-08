@@ -14,10 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-URL="$1"
+fatal ()
+{
+    echo -e >&2 "$@"
+    exit 1
+}
 
 echo "= yt-dashload ="
 
+# Prerequisites
+
+# Command line arguments
+[ "$#" -eq 1 ] || fatal "1 argument required, $# provided"
+# ffmpeg
+command -v ffmpeg >/dev/null 2>&1 || fatal "Please install ffmpeg."
+# youtube-dl
+[ ! -f youtube-dl ] && fatal "Please put youtube-dl into this directory.\n"\
+"You can download youtube-dl at https://yt-dl.org"
+# youtube-dl permissions
+[ ! -x youtube-dl ] && fatal "Please make youtube-dl executable. (chmod +x youtube-dl)"
+
+URL="$1"
 echo "URL: $URL"
 
 VIDEO_ID=$(./youtube-dl --get-id "$URL")
