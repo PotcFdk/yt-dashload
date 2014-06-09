@@ -73,7 +73,7 @@ TMP_AUDIO="tmp.audio.$VIDEO_ID"
 
 # Merge video and audio
 
-ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy "$VIDEO_TITLE.mp4"
+ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy file:"$VIDEO_TITLE.mp4"
 
 # Cleanup
 
