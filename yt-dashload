@@ -57,7 +57,7 @@ echo "Title: $VIDEO_TITLE"
 
 echo "Downloading video..."
 
-TMP_VIDEO="tmp.video.$VIDEO_ID"
+TMP_VIDEO="$VIDEO_ID.video.tmp"
 ./youtube-dl -f 137/136/135/134/133/160 -o "$TMP_VIDEO" "$URL" || fatal "Download error."
 
 # Audio
@@ -68,7 +68,7 @@ TMP_VIDEO="tmp.video.$VIDEO_ID"
 
 echo "Downloading audio..."
 
-TMP_AUDIO="tmp.audio.$VIDEO_ID"
+TMP_AUDIO="$VIDEO_ID.audio.tmp"
 ./youtube-dl -f 140/171 -o "$TMP_AUDIO" "$URL" || fatal "Download error"
 
 # Merge video and audio
