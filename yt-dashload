@@ -43,6 +43,10 @@ echo "VideoID: $VIDEO_ID"
 VIDEO_TITLE=$(./youtube-dl -e "$URL") || fatal "Error fetching metadata."
 echo "Title: $VIDEO_TITLE"
 
+# Check
+
+[ -f "$VIDEO_TITLE.mp4" ] && fatal "Destination file '$VIDEO_TITLE.mp4' exists already!\nAborting."
+
 # Video
 
 # Formats:
