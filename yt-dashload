@@ -25,6 +25,8 @@ echo "= yt-dashload ="
 # Prerequisites
 
 # Command line arguments
+[ "$#" -eq 0 ] && fatal "Usage:\n"\
+"$0 [YouTube video url]"
 [ "$#" -eq 1 ] || fatal "1 argument required, $# provided"
 # ffmpeg
 command -v ffmpeg >/dev/null 2>&1 || fatal "Please install ffmpeg."
