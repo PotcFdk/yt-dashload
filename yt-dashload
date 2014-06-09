@@ -73,6 +73,8 @@ TMP_AUDIO="tmp.audio.$VIDEO_ID"
 
 # Merge video and audio
 
+echo "Merging audio and video..."
+
 ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy file:"$VIDEO_TITLE.mp4" || {
 	rm "$VIDEO_TITLE.mp4" 2> /dev/null
 	fatal "Conversion error."
@@ -82,3 +84,7 @@ ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy file:"$VIDEO_TITLE.mp4" || {
 
 rm "$TMP_VIDEO"
 rm "$TMP_AUDIO"
+
+# Success
+
+echo "Saved to $VIDEO_TITLE.mp4"
