@@ -64,7 +64,7 @@ echo "Title: $VIDEO_TITLE"
 echo "Downloading video..."
 
 TMP_VIDEO="$VIDEO_ID.video.tmp"
-./youtube-dl -f 137/136/135/134/133/160 -o "$TMP_VIDEO" "$URL" || fatal "Download error."
+./youtube-dl -f 138/264/137/136/135/134/133/160 -o "$TMP_VIDEO" "$URL" || fatal "Download error."
 
 # Audio
 
