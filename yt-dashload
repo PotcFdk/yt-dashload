@@ -28,11 +28,18 @@ echo "= yt-dashload ="
 [ "$#" -eq 0 ] && fatal "Usage:\n"\
 "$0 [YouTube video url]"
 [ "$#" -eq 1 ] || fatal "1 argument required, $# provided"
-# ffmpeg
-command -v ffmpeg >/dev/null 2>&1 || fatal "Please install ffmpeg."
+
+# ffmpeg / avconv
+command -v ffmpeg >/dev/null 2>&1 && {
+	ENCODER="ffmpeg"
+} || command -v avconv >/dev/null 2>&1 && {
+	ENCODER="avconv"
+} || fatal "Please install ffmpeg or avconv."
+
 # youtube-dl
 [ ! -f youtube-dl ] && fatal "Please put youtube-dl into this directory.\n"\
 "You can download youtube-dl at https://yt-dl.org"
+
 # youtube-dl permissions
 [ ! -x youtube-dl ] && fatal "Please make youtube-dl executable. (chmod +x youtube-dl)"
 
@@ -81,7 +88,7 @@ TMP_AUDIO="$VIDEO_ID.audio.tmp"
 
 echo "Merging audio and video..."
 
-ffmpeg -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy file:"$VIDEO_TITLE.mp4" || {
+$ENCODER -i "$TMP_VIDEO" -i "$TMP_AUDIO" -c copy file:"$VIDEO_TITLE.mp4" || {
 	rm "$VIDEO_TITLE.mp4" 2> /dev/null
 	fatal "Conversion error."
 }
