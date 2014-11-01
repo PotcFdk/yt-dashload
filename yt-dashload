@@ -30,11 +30,13 @@ echo "= yt-dashload ="
 [ "$#" -eq 1 ] || fatal "1 argument required, $# provided"
 
 # ffmpeg / avconv
-command -v ffmpeg >/dev/null 2>&1 && {
+if command -v ffmpeg >/dev/null 2>&1; then
 	ENCODER="ffmpeg"
-} || command -v avconv >/dev/null 2>&1 && {
+elif command -v avconv >/dev/null 2>&1; then
 	ENCODER="avconv"
-} || fatal "Please install ffmpeg or avconv."
+else
+	fatal "Please install ffmpeg or avconv."
+fi
 
 # youtube-dl
 [ ! -f youtube-dl ] && fatal "Please put youtube-dl into this directory.\n"\
