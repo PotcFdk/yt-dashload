@@ -32,9 +32,9 @@ echo "= yt-dashload ="
 # ffmpeg / avconv
 command -v ffmpeg >/dev/null 2>&1 && {
 	ENCODER="ffmpeg"
-} || command -v avconv >/dev/null 2>&1 && {
+} || (command -v avconv >/dev/null 2>&1 && {
 	ENCODER="avconv"
-} || fatal "Please install ffmpeg or avconv."
+}) || fatal "Please install ffmpeg or avconv."
 
 # youtube-dl
 [ ! -f youtube-dl ] && fatal "Please put youtube-dl into this directory.\n"\
