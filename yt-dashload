@@ -58,31 +58,33 @@ echo "Title: $VIDEO_TITLE"
 
 # Video
 
-# Formats:
+# MP4 Formats:
 # 160         mp4       144p        DASH video , video only
 # 133         mp4       240p        DASH video , video only
 # 134         mp4       360p        DASH video , video only
 # 135         mp4       480p        DASH video , video only
 # 136         mp4       720p        DASH video , video only
+# 298         mp4       720p@60Hz   DASH video , video only
 # 137         mp4       1080p       DASH video , video only
+# 299         mp4       1080p@60Hz  DASH video , video only
 # 264         mp4       1440p       DASH video , video only
 # 138         mp4       2160p       DASH video , video only
 
 echo "Downloading video..."
 
 TMP_VIDEO="$VIDEO_ID.video.tmp"
-./youtube-dl -f 138/264/137/136/135/134/133/160 -o "$TMP_VIDEO" "$URL" || fatal "Download error."
+./youtube-dl -f 138/264/299/137/298/136/135/134/133/160 -o "$TMP_VIDEO" "$URL" || fatal "Download error."
 
 # Audio
 
 # Formats:
-# 171         webm      audio only  DASH audio , audio@ 48k
 # 140         m4a       audio only  DASH audio , audio@128k
+# 141         m4a       audio only  DASH audio , audio@256k
 
 echo "Downloading audio..."
 
 TMP_AUDIO="$VIDEO_ID.audio.tmp"
-./youtube-dl -f 140/171 -o "$TMP_AUDIO" "$URL" || fatal "Download error"
+./youtube-dl -f 141/140 -o "$TMP_AUDIO" "$URL" || fatal "Download error"
 
 # Merge video and audio
 
